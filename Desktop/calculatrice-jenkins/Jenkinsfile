@@ -2,31 +2,25 @@ pipeline {
     agent any
 
     tools {
-        // Doit correspondre au nom que vous avez donné dans "Administrer Jenkins > Tools"
+        // Vérifiez bien que vous avez appelé votre outil 'node' dans Jenkins > Tools
         nodejs 'node' 
     }
 
     stages {
-        stage('Nettoyage') {
-            steps {
-                deleteDir() // Nettoie le dossier avant de commencer
-            }
-        }
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Installation des dépendances') {
             steps {
-                bat 'npm install'
+                // On entre dans les sous-dossiers avant de lancer npm install
+                dir('Desktop/calculatrice-jenkins') {
+                    bat 'npm install'
+                }
             }
         }
         stage('Build manuel') {
             steps {
-                echo 'Construction de l\'application...'
-                // Ici on vérifie juste que les fichiers sont là
-                bat 'dir' 
+                dir('Desktop/calculatrice-jenkins') {
+                    echo 'Construction de l\'application...'
+                    bat 'dir'
+                }
             }
         }
     }
