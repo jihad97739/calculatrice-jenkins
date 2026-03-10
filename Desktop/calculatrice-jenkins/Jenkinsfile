@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    tools {
+        // Doit correspondre au nom que vous avez donné dans "Administrer Jenkins > Tools"
+        nodejs 'node' 
+    }
+
+    stages {
+        stage('Nettoyage') {
+            steps {
+                deleteDir() // Nettoie le dossier avant de commencer
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Installation des dépendances') {
+            steps {
+                bat 'npm install'
+            }
+        }
+        stage('Build manuel') {
+            steps {
+                echo 'Construction de l\'application...'
+                // Ici on vérifie juste que les fichiers sont là
+                bat 'dir' 
+            }
+        }
+    }
+}
