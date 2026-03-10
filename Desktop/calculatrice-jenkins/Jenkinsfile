@@ -2,23 +2,34 @@ pipeline {
     agent any
 
     tools {
-        // Vérifiez bien que vous avez appelé votre outil 'node' dans Jenkins > Tools
+        // Doit correspondre au nom configuré dans Administrer Jenkins > Tools
         nodejs 'node' 
     }
 
     stages {
         stage('Installation des dépendances') {
             steps {
-                // On entre dans les sous-dossiers avant de lancer npm install
                 dir('Desktop/calculatrice-jenkins') {
+                    // Installe Express, Jest et Supertest
                     bat 'npm install'
                 }
             }
         }
+
+        stage('Test Automatique') { 
+            steps {
+                dir('Desktop/calculatrice-jenkins') {
+                    echo 'Exécution des tests unitaires...'
+                    // Lance la commande "npm test" définie dans package.json
+                    bat 'npm test'
+                }
+            }
+        }
+
         stage('Build manuel') {
             steps {
                 dir('Desktop/calculatrice-jenkins') {
-                    echo 'Construction de l\'application...'
+                    echo 'Construction terminée avec succès !'
                     bat 'dir'
                 }
             }
